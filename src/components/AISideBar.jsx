@@ -9,12 +9,68 @@ export default function AISideBar() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const suggestions = [
+    "Create a Javascript study plan",
+    "Help me focus for 2 hours",
+    "Design a Pomodoro schedule",
+    "How can i stop procastinating",
+    "Give me productivity tips",
+  ];
+
   const messagesEndRef = useRef(null);
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
     });
   }, [messages]);
+  const askSuggestion = async (suggestion) => {
+    setPrompt(suggestion);
+    const userMessage = {
+      role: "user",
+      content: "suggestion",
+    };
+    setMessages((prev) => [...prev, userMessage]);
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        {
+          model: "deepseek/deepseek-chat",
+          messages: [
+            {
+              role: "system",
+              content:
+                "You are a productivity coach helping students focus and study effectively.",
+            },
+            {
+              role: "user",
+              content: "suggestion",
+            },
+          ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_OPENROUTER_API_KEY}`,
+            "Content-Type": "application/json",
+            "HTTP-Referer": "http://localhost:5137",
+            "X-Title": "Focus Studio",
+          },
+        },
+      );
+      const aiReply = response.data.choices[0].message.content;
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "aiReply",
+        },
+      ]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleAskAI = async () => {
     if (!prompt.trim()) return;
 
@@ -77,7 +133,7 @@ export default function AISideBar() {
       initial={{ opacity: 0, x: 40 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6 }}
-      className="h-[87.8vh] overflow-hidden bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0, 0, 0, 0.37)] flex flex-col"
+      className="h-165 overflow-hidden bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0, 0, 0, 0.37)] flex flex-col"
     >
       <div className="p-5 border-b border-white/10 shrink-0">
         <h2 className="text-2xl text-white font-semibold">AI Focus Coach</h2>
@@ -87,10 +143,25 @@ export default function AISideBar() {
       </div>
       <div className=" flex-1 min-h-0 space-y-4 p-4 overflow-x-hidden overflow-y-auto">
         {messages.length === 0 && (
-          <div className="text-gray-400 text-sm">
-            Start a conversation with your AI coach.
-          </div>
+          <>
+            <div className="space-y-2">
+              <p className="text-gray-400 text-sm mb-4">Try one of these</p>
+              {suggestions.map((suggestion) => (
+                <button
+                  key={suggestion}
+                  onClick={() => askSuggestion(suggestion)}
+                  className="block w-full text-left p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition"
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+            <div className="text-gray-400 text-sm">
+              Start a conversation with your AI coach.
+            </div>
+          </>
         )}
+
         {messages.map((message, index) => (
           <div
             key={index}
@@ -116,10 +187,11 @@ export default function AISideBar() {
         {loading && (
           <div className="flex justify-start">
             <div className="bg-white/10 border border-white/10 px-4 py-3 rounded-2xl text-gray-300">
-             <div className="flex gap-1">
-              <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0.2s]"></span>
-              <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0.4s]"></span>
-             </div>
+              <div className="flex gap-1">
+                <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0.4s]"></span>
+              </div>
             </div>
           </div>
         )}
