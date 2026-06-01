@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TimerCard from "./components/TimeCard";
 import TaskList from "./components/TaskList";
 import FocusTracker from "./components/FocusTracker";
@@ -24,8 +24,17 @@ export default function Home() {
       },
     ]);
   };
-const [focusScore, setFocusScore] = useState(100);
+  const [focusScore, setFocusScore] = useState(100);
   const [completedTasks, setCompletedTasks] = useState(0);
+  // const [streak, setStreak] = useState(() => {
+  //   const savedStreak = localStorage.getItem("streak");
+  //   return savedStreak ? JSON.parse(savedStreak) : 0;
+  // });
+  // useEffect(() => {
+  //   localStorage.setItem(
+  //     "streak", JSON.stringify(streak)
+  //   )
+  // },[streak])
   return (
     <div className="relative overflow-x-hidden scroll-smooth bg-linear-to-br from-[#0f172a] via-[#111827] to-[#1e3a8a] animated-gradient text-white flex min-h-screen">
       <div className="absolute top-0 left-0 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
@@ -35,19 +44,23 @@ const [focusScore, setFocusScore] = useState(100);
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <TimerCard />
-          <AnalyticsCard analyticsData={analyticsData} />
-          <TaskList setCompletedTasks={setCompletedTasks}
-          updateAnalytics={updateAnalytics} 
-          completedTasks={completedTasks}
-          focusScore={focusScore}/>
-          <FocusTracker focusScore={focusScore}
-          setFocusScore={setFocusScore}
-          updateAnalytics={updateAnalytics}
-          completedTasks={completedTasks}/>
+            <AnalyticsCard analyticsData={analyticsData} />
+            <TaskList
+              setCompletedTasks={setCompletedTasks}
+              updateAnalytics={updateAnalytics}
+              completedTasks={completedTasks}
+              focusScore={focusScore}
+            />
+            <FocusTracker
+              focusScore={focusScore}
+              setFocusScore={setFocusScore}
+              updateAnalytics={updateAnalytics}
+              completedTasks={completedTasks}
+            />
           </div>
           {/* <StatsCard completedTasks={completedTasks}/> */}
           <div className="md:row-span-2">
-            <AISideBar/>
+            <AISideBar />
           </div>
         </div>
       </div>

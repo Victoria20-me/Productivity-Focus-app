@@ -8,14 +8,20 @@ export default function TimerCard() {
   useEffect(() => {
     if (!isRunning) return;
     const interval = setInterval(() => {
-      setTime((prev) => prev - 1);
+      setTime((prev) => {
+        if (prev <= 1) {
+          setIsRunning(false);
+          return 0;
+        }
+        return prev - 1;
+      });
     }, 1000);
     return () => clearInterval(interval);
   }, [isRunning]);
   const formatTime = () => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${minutes} : ${seconds < 10 ? "0" : ""}${seconds}`;
+    return `${String(minutes).padStart(2, "0")} : ${String(seconds).padStart(2, "0")}`;
   };
   return (
     <motion.div

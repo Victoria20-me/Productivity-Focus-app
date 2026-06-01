@@ -27,8 +27,9 @@ export default function AISideBar() {
     setPrompt(suggestion);
     const userMessage = {
       role: "user",
-      content: "suggestion",
+      content: suggestion,
     };
+    setPrompt("");
     setMessages((prev) => [...prev, userMessage]);
     try {
       setLoading(true);
@@ -44,7 +45,7 @@ export default function AISideBar() {
             },
             {
               role: "user",
-              content: "suggestion",
+              content: suggestion,
             },
           ],
         },
@@ -62,7 +63,7 @@ export default function AISideBar() {
         ...prev,
         {
           role: "assistant",
-          content: "aiReply",
+          content: aiReply,
         },
       ]);
     } catch (error) {
