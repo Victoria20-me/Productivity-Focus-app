@@ -1,4 +1,6 @@
-export default function StatsCard({ completedTasks }) {
+export default function StatsCard({ focusSession, streak }) {
+
+  
   return (
     <div className="min-h-{260px} bg-white backdrop-blur-2xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.37)] flex flex-col justify-center items-center">
       <h2 className="text-xl font-semibold mb-4">Productivity Stats</h2>

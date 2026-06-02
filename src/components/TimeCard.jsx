@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-export default function TimerCard() {
-  const [time, setTime] = useState(25 * 60);
+export default function TimerCard({ setFocusSessions, setStreak }) {
+  const [time, setTime] = useState(5);
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
@@ -10,7 +10,8 @@ export default function TimerCard() {
     const interval = setInterval(() => {
       setTime((prev) => {
         if (prev <= 1) {
-          setIsRunning(false);
+          console.log("Timer completed");
+
           return 0;
         }
         return prev - 1;
@@ -18,6 +19,16 @@ export default function TimerCard() {
     }, 1000);
     return () => clearInterval(interval);
   }, [isRunning]);
+
+  useEffect(() => {
+    if (time === 0 && isRunning) {
+      console.count("Timer completed");
+
+      setFocusSessions((prev) => prev + 1);
+      setStreak((prev) => prev + 1);
+      setIsRunning(false);
+    }
+  }, [time, isRunning, setFocusSessions, setStreak]);
   const formatTime = () => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
