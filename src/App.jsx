@@ -75,10 +75,13 @@ export default function Home() {
               updateAnalytics={updateAnalytics}
               completedTasks={completedTasks}
             />
-            <p>Focus Sessions:{focusSessions}</p>
-            <p>🔥 streak:{streak}</p>
+            <StatsCard
+              focusSessions={focusSessions}
+              streak={streak}
+              completedTasks={completedTasks}
+            />
           </div>
-          {/* <StatsCard focusSessions={focusSessions} streak={streak} /> */}
+
           <div className="md:row-span-2">
             <AISideBar />
           </div>

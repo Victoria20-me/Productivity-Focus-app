@@ -6,7 +6,14 @@ import rehypeRaw from "rehype-raw";
 
 export default function AISideBar() {
   const [prompt, setPrompt] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => {
+    const saved = localStorage.getItem("aiMessages");
+    try {
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [loading, setLoading] = useState(false);
 
   const suggestions = [
@@ -23,11 +30,19 @@ export default function AISideBar() {
       behavior: "smooth",
     });
   }, [messages]);
+
+  useEffect(() => {
+    localStorage.setItem("aiMessages", JSON.stringify(messages));
+  }, [messages]);
   const askSuggestion = async (suggestion) => {
     setPrompt(suggestion);
     const userMessage = {
       role: "user",
       content: suggestion,
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     };
     setPrompt("");
     setMessages((prev) => [...prev, userMessage]);
@@ -64,6 +79,10 @@ export default function AISideBar() {
         {
           role: "assistant",
           content: aiReply,
+          timestamp: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
         },
       ]);
     } catch (error) {
@@ -81,6 +100,10 @@ export default function AISideBar() {
       const userMessage = {
         role: "user",
         content: prompt,
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
       };
       setMessages((prev) => [...prev, userMessage]);
       setPrompt("");
@@ -116,6 +139,10 @@ export default function AISideBar() {
         {
           role: "assistant",
           content: aiReply,
+          timestamp: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
         },
       ]);
     } catch (error) {
@@ -133,11 +160,22 @@ export default function AISideBar() {
     <motion.div
       initial={{ opacity: 0, x: 40 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6 }}
-      className="h-165 overflow-hidden bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0, 0, 0, 0.37)] flex flex-col"
+      transition={{ duration: 0.6, delay: 0.5 }}
+      className="h-165 overflow-hidden bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0, 0, 0, 0.25)] flex flex-col hover:-translate-y-1 hover:shadow-blue-500/20 transition-all duration-300"
     >
       <div className="p-5 border-b border-white/10 shrink-0">
-        <h2 className="text-2xl text-white font-semibold">AI Focus Coach</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl text-white font-semibold">AI Focus Coach</h2>
+          <button
+            onClick={() => {
+              setMessages([]);
+              localStorage.removeItem("aiMessages");
+            }}
+            className="text-xs bg-red-500 px-3 py-1 rounded-lg hover:bg-red-700 shrink-0"
+          >
+            Clear Chat
+          </button>
+        </div>
         <p className="text-sm text-gray-300 mt-1">
           Ask for study plans, productivity help, summaries, and focus advice
         </p>
@@ -151,7 +189,7 @@ export default function AISideBar() {
                 <button
                   key={suggestion}
                   onClick={() => askSuggestion(suggestion)}
-                  className="block w-full text-left p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition"
+                  className="block w-full text-left p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:scale-[1.02] transition"
                 >
                   {suggestion}
                 </button>
@@ -181,6 +219,7 @@ export default function AISideBar() {
               <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                 {message.content}
               </ReactMarkdown>
+              <p className="text-xs text-gray-400 mt-2">{message.timestamp}</p>
             </div>
           </div>
         ))}
@@ -208,7 +247,7 @@ export default function AISideBar() {
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="Ask AI anything..."
             onKeyDown={handleKeyDown}
-            className="flex-1 px-3 py-2 rounded-xl min-w-0 bg-white/10 border border-white/10  text-white placeholder-gray-400 outline-none"
+            className="flex-1 px-3 py-2 rounded-xl min-w-0 bg-white/10 border border-white/10  text-white placeholder-gray-400 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400/30"
           />
           <button
             onClick={handleAskAI}

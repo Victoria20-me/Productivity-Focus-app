@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 export default function TimerCard({ setFocusSessions, setStreak }) {
-  const [time, setTime] = useState(5);
+  const [time, setTime] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function TimerCard({ setFocusSessions, setStreak }) {
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.6, delay:0 }}
       className="h-80 bg-white/10 backdrop-blur-2xl p-6 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.37)] border border-white/20 hover:translate-y-1 hover:shadow-blue-500/20 transition-all duration-300"
     >
       <h2 className="text-xl mb-4 font-semi-bold">Focus Timer</h2>

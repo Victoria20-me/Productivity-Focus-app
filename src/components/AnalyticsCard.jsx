@@ -1,8 +1,11 @@
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { motion } from "framer-motion";
 
 export default function AnalyticsCard({ analyticsData }) {
   return (
-    <div className="h-80 min-w-0 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.37)] hover:-translate-y-1 hover:shadow-blue-500/20 transition-all duration-300">
+    <motion.div initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.1 }} className="h-80 min-w-0 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.37)] hover:-translate-y-1 hover:shadow-blue-500/20 transition-all duration-300">
       <h2 className="text-xl font-semibold mb-6">Productivity Analytics</h2>
       <div className="h-55 min-w-0">
         <ResponsiveContainer width="100%" height="100%">
@@ -26,6 +29,6 @@ export default function AnalyticsCard({ analyticsData }) {
           </LineChart>
         </ResponsiveContainer>
       </div>
-    </div>
+    </motion.div>
   );
 }

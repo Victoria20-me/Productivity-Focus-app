@@ -1,11 +1,41 @@
-export default function StatsCard({ focusSession, streak }) {
+import { motion } from "framer-motion";
 
-  
+export default function StatsCard({ focusSessions, streak, completedTasks }) {
   return (
-    <div className="min-h-{260px} bg-white backdrop-blur-2xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.37)] flex flex-col justify-center items-center">
-      <h2 className="text-xl font-semibold mb-4">Productivity Stats</h2>
-      <p className="text-5xl font-bold text-blue-400">{completedTasks}</p>
-      <p className="text-gray-300 mt-2">Tasks Completed</p>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.4 }}
+      className="h-80 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.37)] hover:-translate-y-1 hover:shadow-blue-500/20 transition-all duration-300"
+    >
+      <h2 className="text-xl font-semibold mb-6">Productivity Stats</h2>
+      <div className="space-y-6">
+        <div>
+          <p className="text-sm text-gray-400">Focus Sessions</p>
+          <p className="text-3xl font-bold text-blue-400">{focusSessions}</p>
+        </div>
+        <div>
+          <p className="text-sm text-gray-400">Current Streak</p>
+          <p className="text-3xl font-bold text-orange-400">{streak}</p>
+        </div>
+        <div>
+          <p className="text-sm text-gray-400">Tasks Completed</p>
+          <p className="text-3xl font-bold text-green-400">{completedTasks}</p>
+        </div>
+        <div className="pt-2">
+          <button
+            onClick={() => {
+              localStorage.removeItem("focusSessions");
+              localStorage.removeItem("streak");
+              window.location.reload();
+            }}
+            className="border rounded-full bg-red-500 px-4 py-3 border-white/10 hover:bg-red-700 transition"
+          >
+            Reset Stats
+          </button>
+        </div>
+      </div>
+    </motion.div>
   );
 }
+ 
