@@ -29,13 +29,13 @@ https://productivity-focus-app.vercel.app
 
 ## Screenshots
 ### Dashboard Overview
-![Dashboard](/images/dashboard-new.png)
+![Dashboard](/public/images/dashboard-new.png)
 
 ### focus Tracker and Productivity Analytics
-![Focus Tracker and Productivity Analytics](/images/productivity-analytics.png)
+![Focus Tracker and Productivity Analytics](/public/images/productivity-analytics.png)
 
 ### AI Focus Coach
-![AI Coach](/images/ai-coach.png)
+![AI Coach](/public/images/ai-coach.png)
 
 ## Installation
 bash
