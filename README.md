@@ -1,16 +1,64 @@
-# React + Vite
+# Focus Studio
+A modern productivity dashboard built with React, Tailwind CSS, Framer Motion, Recharts, and OpenRouter AI.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features 
+- Pomodoro Focus Timer
+- AI Focus Coach
+- Task Management
+- Productivity Analytics
+- Focus Score Tracking
+- Streak Tracking
+- Focus Session Tracking
+- Persistent Local Storage
+- Mobile Responsive Design
+- Glassmorphism UI
+- Animated Dashboard Components
 
-Currently, two official plugins are available:
+ ## Tech Stack 
+ - React
+- Vite
+- Tailwind CSS
+- Framer Motion
+- Recharts
+- Axios
+- OpenRouter API
+- Local Storage
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Live Demo
+https://productivity-focus-app.vercel.app
 
-## React Compiler
+## Screenshots
+### Dashboard Overview
+![Dashboard](/images/dashboard-new.png)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### focus Tracker and Productivity Analytics
+![Focus Tracker and Productivity Analytics](/images/productivity-analytics.png)
 
-## Expanding the ESLint configuration
+### AI Focus Coach
+![AI Coach](/images/ai-coach.png)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Installation
+bash
+git clone <repo-url>
+cd focus-studio
+npm install
+npm run dev
+
+## Environment variables
+Creats a .env file in the root directory
+env
+VITE_OPENROUTER_API_KEY=your_key_here
+
+
+
+## Future Improvements
+- Voice Input
+- AI Study Planner
+- Weekly Productivity Reports
+- Dark/Light Theme Toggle
+- Advanced Analytics
+
+  ## Author
+  Victoria Ayomide
+  
+
