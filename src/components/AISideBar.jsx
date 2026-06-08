@@ -20,7 +20,7 @@ export default function AISideBar() {
     "Create a Javascript study plan",
     "Help me focus for 2 hours",
     "Design a Pomodoro schedule",
-    "How can i stop procastinating",
+    "How can i stop procastinating?",
     "Give me productivity tips",
   ];
 
@@ -213,7 +213,7 @@ export default function AISideBar() {
               className={`max-w-[80%] p-4 rounded-2xl wrap-break-word shadow-lg ${
                 message.role === "user"
                   ? "bg-blue-500 text-white rounded-br-sm"
-                  : "bg-white/10 backdrop-blur-xl border border-white/10 text-gray-100 rounded-bl-sm"
+                  : "bg-white/10 backdrop-blur-xl border border-white/10 text-gray-100 rounded-bl-sm hover:border-blue-400/30"
               }`}
             >
               <ReactMarkdown rehypePlugins={[rehypeRaw]}>
@@ -251,9 +251,14 @@ export default function AISideBar() {
           />
           <button
             onClick={handleAskAI}
-            className="bg-blue-500 hover:bg-blue-600 shrink-0 whitespace-nowrap px-4 py-2 rounded-xl hover:scale-105 transition duration-300"
+            disabled={loading}
+            className={`shrink-0 whitespace-nowrap px-4 py-2 rounded-xl transition duration-300 ${
+              loading
+              ? "bg-blue-500 opacity-50 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600 hover:scale-105"
+            }`}
           >
-            Send
+            {loading ? "..." : "send"}
           </button>
         </div>
       </div>
